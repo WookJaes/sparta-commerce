@@ -13,7 +13,7 @@ public class CommerceSystem {
         this.sc = sc;
     }
 
-    void start() {
+    public void start() {   // 접근 제어자 설정
 
         while (true) {
             System.out.println("[ 실시간 커머스 플랫폼 메인 ]");
@@ -22,7 +22,8 @@ public class CommerceSystem {
             }
             System.out.println("0. 종료     | 프로그램 종료");
 
-            int choice = sc.nextInt();
+            int choice = getValidatedInput(categories.size(), "유효하지 않은 메뉴 번호입니다!");
+
             if (choice == 0) {
                 System.out.println("커머스 플랫폼을 종료합니다.");
                 return;
@@ -39,7 +40,8 @@ public class CommerceSystem {
             }
             System.out.println("0. 뒤로가기");
 
-            int productChoice = sc.nextInt();
+            int productChoice = getValidatedInput(category.getProducts().size(), "유효하지 않은 상품 번호입니다!");
+
             if (productChoice == 0) {
                 System.out.println();
                 continue;
@@ -48,6 +50,26 @@ public class CommerceSystem {
             Product product = category.getProducts().get(productChoice - 1);
             System.out.printf("선택한 상품: %s | %,d원 | %s | 재고: %d개\n\n",
                 product.getProductName(), product.getPrice(), product.getDescription(), product.getQuantity());
+        }
+    }
+
+    // 입력값 검증 로직을 메서드로 추출
+    private int getValidatedInput(int indexSize, String errorMessage) {
+        while (true) {
+            if (!sc.hasNextInt()) {
+                System.out.println("숫자를 입력해주세요!");
+                sc.next();
+                continue;
+            }
+
+            int input = sc.nextInt();
+
+            if (input < 0 || input > indexSize) {
+                System.out.println(errorMessage);
+                continue;
+            }
+
+            return input;
         }
     }
 }

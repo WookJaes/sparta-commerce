@@ -1,5 +1,6 @@
 package com.example.commerce;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Category {
@@ -14,7 +15,7 @@ public class Category {
     }
 
     public List<Product> getProducts() {
-        return products;
+        return Collections.unmodifiableList(products);  // 캡슐화를 위해 불변 리스트로 반환
     }
 
     public String getCategories() {
