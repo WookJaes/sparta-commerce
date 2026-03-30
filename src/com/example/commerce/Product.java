@@ -5,7 +5,7 @@ public class Product {
     private final String productName;
     private final int price;
     private final String description;
-    private final int quantity;
+    private int quantity;   // 재고 변경을 위해 final 삭제
 
     public Product(String productName, int price, String description, int quantity) {
         this.productName = productName;
@@ -28,5 +28,16 @@ public class Product {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    public boolean hasEnoughStock(int amount) {
+        return quantity >= amount;
+    }
+
+    public void decreaseQuantity(int amount) {
+        if (!hasEnoughStock(amount)) {
+            throw new IllegalArgumentException("재고가 부족합니다.");
+        }
+        quantity -= amount;
     }
 }
