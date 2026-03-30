@@ -55,6 +55,7 @@ public class Cart {
         }
 
         int totalPrice = getTotalPrice();
+        System.out.println();
         System.out.printf("주문이 완료되었습니다! 총 금액: %,d원%n", totalPrice);
 
         for (CartItem item : items) {
@@ -92,6 +93,7 @@ public class Cart {
         System.out.println();
         System.out.println("[ 총 주문 금액 ]");
         System.out.printf("%,d원%n", getTotalPrice());
+        System.out.println();
     }
 
     // 상품이 장바구니에 있는지 확인

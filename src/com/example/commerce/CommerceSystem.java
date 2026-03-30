@@ -122,6 +122,8 @@ public class CommerceSystem {
         }
 
         System.out.println();
+        System.out.println("아래 메뉴를 선택해주세요.");
+        System.out.println();
     }
 
     // 입력값 검증 로직을 메서드로 추출
