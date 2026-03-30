@@ -18,10 +18,10 @@ public class Cart {
 
     // 장바구니 상품 추가
     public void addProduct(Product product) {
-        CartItem cartItem = findItem(product);
+        CartItem cartItem = findCartItem(product);
 
         if (cartItem == null) {
-            if (!product.hasEnoughStock(1)) {   // 재고 확인
+            if (product.hasInsufficientQuantity(1)) {   // 재고 확인
                 throw new IllegalArgumentException("재고가 부족하여 장바구니에 담을 수 없습니다.");
             }
 
@@ -32,7 +32,7 @@ public class Cart {
         // CartItem에 상품이 존재하면 수량 증가
         int newQuantity = cartItem.getQuantity() + 1;
 
-        if (!product.hasEnoughStock(newQuantity)) { // 재고 확인
+        if (product.hasInsufficientQuantity(newQuantity)) { // 재고 확인
             throw new IllegalArgumentException("재고가 부족하여 장바구니에 더 담을 수 없습니다.");
         }
 
@@ -97,7 +97,7 @@ public class Cart {
     }
 
     // 상품이 장바구니에 있는지 확인
-    private CartItem findItem(Product product) {
+    private CartItem findCartItem(Product product) {
         for (CartItem item : items) {
             if (item.getProduct() == product) { // 객체 비교
                 return item;

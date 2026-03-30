@@ -6,19 +6,19 @@ import java.util.List;
 public class Category {
 
     private final List<Product> products;
-    private final String categories;
+    private final String categoryName;
 
 
-    public Category(List<Product> products, String categories) {
+    public Category(List<Product> products, String categoryName) {
         this.products = products;
-        this.categories = categories;
+        this.categoryName = categoryName;
     }
 
     public List<Product> getProducts() {
         return Collections.unmodifiableList(products);  // 캡슐화를 위해 불변 리스트로 반환
     }
 
-    public String getCategories() {
-        return categories;
+    public String getCategoryName() {
+        return categoryName;
     }
 }

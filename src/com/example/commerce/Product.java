@@ -30,12 +30,12 @@ public class Product {
         return quantity;
     }
 
-    public boolean hasEnoughStock(int amount) {
-        return quantity >= amount;
+    public boolean hasInsufficientQuantity(int amount) {
+        return quantity < amount;
     }
 
     public void decreaseQuantity(int amount) {
-        if (!hasEnoughStock(amount)) {
+        if (hasInsufficientQuantity(amount)) {
             throw new IllegalArgumentException("재고가 부족합니다.");
         }
         quantity -= amount;

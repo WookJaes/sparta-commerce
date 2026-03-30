@@ -45,7 +45,7 @@ public class CommerceSystem {
     private void printMainMenu() {
         System.out.println("[ 실시간 커머스 플랫폼 메인 ]");
         for (int i = 0; i < categories.size(); i++) {
-            System.out.println((i + 1) + ". " + categories.get(i).getCategories());
+            System.out.println((i + 1) + ". " + categories.get(i).getCategoryName());
         }
         System.out.println("0. 종료     | 프로그램 종료");
 
@@ -84,17 +84,10 @@ public class CommerceSystem {
         return false;
     }
 
+    // 카테고리 선택 후 상품 조회 및 장바구니 추가
     private void executeCategoryMenu(int choice) {
         Category category = categories.get(choice - 1);
-        System.out.println();
-        System.out.println("[ " + category.getCategories() + " 카테고리 ]");
-
-        for (int i = 0; i < category.getProducts().size(); i++) {
-            Product product = category.getProducts().get(i);
-            System.out.printf("%d. %-14s | %,9d원 | %s\n", i + 1,
-                product.getProductName(), product.getPrice(), product.getDescription());
-        }
-        System.out.println("0. 뒤로가기");
+        printCategoryProducts(category);
 
         int productChoice = getValidatedInput(category.getProducts().size(), "유효하지 않은 상품 번호입니다!");
 
@@ -104,6 +97,25 @@ public class CommerceSystem {
         }
 
         Product product = category.getProducts().get(productChoice - 1);
+        handleAddToCart(product);
+    }
+
+    // 선택한 카테고리의 상품 목록 출력
+    private void printCategoryProducts(Category category) {
+        System.out.println();
+        System.out.println("[ " + category.getCategoryName() + " 카테고리 ]");
+
+        List<Product> products = category.getProducts();
+        for (int i = 0; i < category.getProducts().size(); i++) {
+            Product product = products.get(i);
+            System.out.printf("%d. %-14s | %,9d원 | %s | 재고: %d\n", i + 1,
+                product.getProductName(), product.getPrice(), product.getDescription(), product.getQuantity());
+        }
+        System.out.println("0. 뒤로가기");
+    }
+
+    // 상품을 장바구니에 추가할지 사용자에게 확인하고 처리
+    private void handleAddToCart(Product product) {
         System.out.printf("선택한 상품: %s | %,d원 | %s | 재고: %d개\n\n",
             product.getProductName(), product.getPrice(), product.getDescription(),
             product.getQuantity());
