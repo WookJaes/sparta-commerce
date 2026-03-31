@@ -49,14 +49,12 @@ public class Cart {
         return total;
     }
 
-    public void order() {
+    public List<String> order() {
         if (isEmpty()) {
             throw new IllegalArgumentException("장바구니가 비어 있습니다.");
         }
 
-        int totalPrice = getTotalPrice();
-        System.out.println();
-        System.out.printf("주문이 완료되었습니다! 총 금액: %,d원%n", totalPrice);
+        List<String> messages = new ArrayList<>();
 
         for (CartItem item : items) {
             Product product = item.getProduct();
@@ -65,10 +63,12 @@ public class Cart {
             product.decreaseQuantity(item.getQuantity());
             int after = product.getQuantity();
 
-            System.out.printf("%s 재고가 %d개 → %d개로 업데이트되었습니다.%n",
-                product.getProductName(), before, after);
+            messages.add(  // 포맷된 메시지 저장
+                String.format("%s 재고가 %d개 → %d개로 업데이트되었습니다.%n",
+                    product.getProductName(), before, after));
         }
         clear();
+        return messages;
     }
 
     public void clear() {
@@ -77,23 +77,6 @@ public class Cart {
 
     public void cancelOrder() {
         clear();
-        System.out.println("주문이 취소되었습니다.");
-    }
-
-    public void printCart() {
-        System.out.println("[ 장바구니 내역 ]");
-
-        for (CartItem item : items) {
-            Product product = item.getProduct();
-
-            System.out.printf("%s | %,d원 | %s | 수량: %d개%n",
-                product.getProductName(), product.getPrice(), product.getDescription(), item.getQuantity());
-        }
-
-        System.out.println();
-        System.out.println("[ 총 주문 금액 ]");
-        System.out.printf("%,d원%n", getTotalPrice());
-        System.out.println();
     }
 
     // 상품이 장바구니에 있는지 확인

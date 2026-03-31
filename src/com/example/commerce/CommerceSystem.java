@@ -15,14 +15,14 @@ public class CommerceSystem {
         this.cart = new Cart();     // CommerceSystem 에서만 사용하는 객체 (매개변수 x)
     }
 
-    public void start() {   // 접근 제어자 설정
-
+    public void start() {
         while (true) {
             try {
                 printMainMenu();
 
                 int choice = getValidatedInput(
-                    cart.isEmpty() ? categories.size() : categories.size() + 2, "유효하지 않은 메뉴 번호입니다!");
+                    cart.isEmpty() ? categories.size() : categories.size() + 2,
+                    "유효하지 않은 메뉴 번호입니다!");
 
                 if (choice == 0) {
                     System.out.println("커머스 플랫폼을 종료합니다.");
@@ -63,13 +63,19 @@ public class CommerceSystem {
             System.out.println("아래와 같이 주문 하시겠습니까?");
             System.out.println();
 
-            cart.printCart();
+            printCart();
             System.out.println("1. 주문 확정      2. 메인으로 돌아가기");
 
             int orderChoice = getValidatedInput(2, "유효하지 않은 메뉴 번호입니다!");
 
             if (orderChoice == 1) {
-                cart.order();
+                int totalPrice = cart.getTotalPrice();
+                List<String> messages = cart.order();
+
+                System.out.printf("주문이 완료되었습니다! 총 금액: %,d원%n", totalPrice);
+                for (String message : messages) {
+                    System.out.println(message);
+                }
             }
 
             System.out.println();
@@ -78,6 +84,7 @@ public class CommerceSystem {
 
         if (!cart.isEmpty() && choice == 5) {
             cart.cancelOrder();
+            System.out.println("주문이 취소되었습니다.");
             System.out.println();
             return true;
         }
@@ -100,15 +107,14 @@ public class CommerceSystem {
         handleAddToCart(product);
     }
 
-    // 선택한 카테고리의 상품 목록 출력
     private void printCategoryProducts(Category category) {
         System.out.println();
         System.out.println("[ " + category.getCategoryName() + " 카테고리 ]");
 
         List<Product> products = category.getProducts();
-        for (int i = 0; i < category.getProducts().size(); i++) {
+        for (int i = 0; i < products.size(); i++) {
             Product product = products.get(i);
-            System.out.printf("%d. %-14s | %,9d원 | %s | 재고: %d\n", i + 1,
+            System.out.printf("%d. %-14s | %,9d원 | %s | 재고: %d개%n", i + 1,
                 product.getProductName(), product.getPrice(), product.getDescription(), product.getQuantity());
         }
         System.out.println("0. 뒤로가기");
@@ -117,11 +123,9 @@ public class CommerceSystem {
     // 상품을 장바구니에 추가할지 사용자에게 확인하고 처리
     private void handleAddToCart(Product product) {
         System.out.printf("선택한 상품: %s | %,d원 | %s | 재고: %d개\n\n",
-            product.getProductName(), product.getPrice(), product.getDescription(),
-            product.getQuantity());
+            product.getProductName(), product.getPrice(), product.getDescription(), product.getQuantity());
 
-        System.out.printf("\"%s | %,d원 | %s\"%n", product.getProductName(),
-            product.getPrice(), product.getDescription());
+        System.out.printf("\"%s | %,d원 | %s\"%n", product.getProductName(), product.getPrice(), product.getDescription());
         System.out.println("위 상품을 장바구니에 추가하시겠습니까?");
         System.out.println("1. 확인        2. 취소");
 
@@ -138,7 +142,23 @@ public class CommerceSystem {
         System.out.println();
     }
 
-    // 입력값 검증 로직을 메서드로 추출
+    // 장바구니 내역 출력
+    private void printCart() {
+        System.out.println("[ 장바구니 내역 ]");
+
+        for (CartItem item : cart.getItems()) {
+            Product product = item.getProduct();
+
+            System.out.printf("%s | %,d원 | %s | 수량: %d개%n",
+                product.getProductName(), product.getPrice(), product.getDescription(), item.getQuantity());
+        }
+
+        System.out.println();
+        System.out.println("[ 총 주문 금액 ]");
+        System.out.printf("%,d원%n", cart.getTotalPrice());
+        System.out.println();
+    }
+
     private int getValidatedInput(int indexSize, String errorMessage) {
         while (true) {
             if (!sc.hasNextInt()) {
