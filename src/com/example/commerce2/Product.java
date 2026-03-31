@@ -3,9 +3,9 @@ package com.example.commerce2;
 public class Product {
 
     private final String productName;
-    private final int price;
-    private final String description;
-    private int quantity;   // 재고 변경을 위해 final 삭제
+    private int price;
+    private String description;
+    private int quantity;
 
     public Product(String productName, int price, String description, int quantity) {
         this.productName = productName;
@@ -39,5 +39,26 @@ public class Product {
             throw new IllegalArgumentException("재고가 부족합니다.");
         }
         quantity -= amount;
+    }
+
+    public void setPrice(int price) {
+        if (price <= 0) {
+            throw new IllegalArgumentException("가격은 1 이상이어야 합니다.");
+        }
+        this.price = price;
+    }
+
+    public void setDescription(String description) {
+        if (description == null || description.trim().isEmpty()) {
+            throw new IllegalArgumentException("상품 설명을 입력해주세요.");
+        }
+        this.description = description;
+    }
+
+    public void setQuantity(int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("재고수량은 1 이상이어야 합니다.");
+        }
+        this.quantity = quantity;
     }
 }
