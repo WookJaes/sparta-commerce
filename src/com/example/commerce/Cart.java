@@ -64,7 +64,7 @@ public class Cart {
             int after = product.getQuantity();
 
             messages.add(  // 포맷된 메시지 저장
-                String.format("%s 재고가 %d개 → %d개로 업데이트되었습니다.%n",
+                String.format("%s 재고가 %d개 → %d개로 업데이트되었습니다.",
                     product.getProductName(), before, after));
         }
         clear();

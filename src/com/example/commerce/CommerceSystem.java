@@ -8,19 +8,19 @@ public class CommerceSystem {
     private final List<Category> categories;
     private final Scanner sc;
     private final Cart cart;
-    private final CommerceView CommerceView;
+    private final CommerceView commerceView;
 
     public CommerceSystem(List<Category> categories, Scanner sc) {
         this.categories = categories;
         this.sc = sc;
         this.cart = new Cart();
-        this.CommerceView = new CommerceView();
+        this.commerceView = new CommerceView();
     }
 
     public void start() {
         while (true) {
             try {
-                CommerceView.printMainMenu(categories, cart);
+                commerceView.printMainMenu(categories, cart);
 
                 int choice = getValidatedInput(
                     cart.isEmpty() ? categories.size() : categories.size() + 2,
@@ -46,12 +46,7 @@ public class CommerceSystem {
 
     private boolean executeOrderMenu(int choice) {
         if (!cart.isEmpty() && choice == 4) {
-            System.out.println();
-            System.out.println("아래와 같이 주문 하시겠습니까?");
-            System.out.println();
-
-            CommerceView.printCart(cart);
-            System.out.println("1. 주문 확정      2. 메인으로 돌아가기");
+            commerceView.printOrderSummary(cart);
 
             int orderChoice = getValidatedInput(2, "유효하지 않은 메뉴 번호입니다!");
 
@@ -59,6 +54,7 @@ public class CommerceSystem {
                 int totalPrice = cart.getTotalPrice();
                 List<String> messages = cart.order();
 
+                System.out.println();
                 System.out.printf("주문이 완료되었습니다! 총 금액: %,d원%n", totalPrice);
                 for (String message : messages) {
                     System.out.println(message);
@@ -80,7 +76,7 @@ public class CommerceSystem {
 
     private void executeCategoryMenu(int choice) {
         Category category = categories.get(choice - 1);
-        CommerceView.printCategoryProducts(category);
+        commerceView.printCategoryProducts(category);
 
         int productChoice = getValidatedInput(category.getProducts().size(), "유효하지 않은 상품 번호입니다!");
 
@@ -94,7 +90,7 @@ public class CommerceSystem {
     }
 
     private void handleAddToCart(Product product) {
-        CommerceView.printProductSelect(product);
+        commerceView.printProductSelect(product);
 
         int addChoice = getValidatedInput(2, "유효하지 않은 메뉴 번호입니다!");
 

@@ -28,10 +28,7 @@ public class CommerceView {
             Product product = products.get(i);
             System.out.printf("%d. %-14s | %,9d원 | %s | 재고: %d개%n",
                 i + 1,
-                product.getProductName(),
-                product.getPrice(),
-                product.getDescription(),
-                product.getQuantity());
+                product.getProductName(), product.getPrice(), product.getDescription(), product.getQuantity());
         }
         System.out.println("0. 뒤로가기");
     }
@@ -59,5 +56,14 @@ public class CommerceView {
         System.out.println("[ 총 주문 금액 ]");
         System.out.printf("%,d원%n", cart.getTotalPrice());
         System.out.println();
+    }
+
+    public void printOrderSummary(Cart cart) {
+        System.out.println();
+        System.out.println("아래와 같이 주문 하시겠습니까?");
+        System.out.println();
+
+        printCart(cart);
+        System.out.println("1. 주문 확정      2. 메인으로 돌아가기");
     }
 }
