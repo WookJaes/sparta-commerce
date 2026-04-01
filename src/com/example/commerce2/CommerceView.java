@@ -77,6 +77,7 @@ public class CommerceView {
     }
 
     public void printCategorySelection(List<Category> categories) {
+        System.out.println();
         System.out.println("어느 카테고리에 상품을 추가하시겠습니까?");
         for (int i = 0; i < categories.size(); i++) {
             System.out.println((i + 1) + ". " + categories.get(i).getCategoryName());
@@ -105,10 +106,7 @@ public class CommerceView {
 
             for (Product product : category.getProducts()) {
                 System.out.printf("%s | %,d원 | %s | 재고: %d개%n",
-                    product.getProductName(),
-                    product.getPrice(),
-                    product.getDescription(),
-                    product.getQuantity());
+                    product.getProductName(), product.getPrice(), product.getDescription(), product.getQuantity());
             }
         }
         System.out.println();

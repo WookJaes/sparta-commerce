@@ -63,6 +63,7 @@ public class AdminService {
         int failCount = 0;
 
         while (failCount < 3) {
+            System.out.println();
             System.out.print("관리자 비밀번호를 입력해주세요: ");
             String input = sc.nextLine();
 
@@ -108,6 +109,7 @@ public class AdminService {
 
         Product newProduct = new Product(productName, price, description, quantity);
 
+        System.out.println();
         commerceView.printProductInfo(newProduct);
         commerceView.printAddMessage();
 
@@ -115,6 +117,7 @@ public class AdminService {
 
         if (confirm == 1) {
             category.addProduct(newProduct);
+            System.out.println();
             System.out.println("상품이 성공적으로 추가되었습니다!");
         } else {
             System.out.println("상품 추가가 취소되었습니다.");
@@ -132,6 +135,7 @@ public class AdminService {
 
         commerceView.printEditMenu();
         int editChoice = getValidatedInput(3, "유효하지 않은 메뉴 번호입니다!");
+        System.out.println();
 
         switch (editChoice) {
             case 1:
@@ -157,7 +161,7 @@ public class AdminService {
         int newPrice = readAmount("새로운 가격을 입력해주세요: ");
         product.setPrice(newPrice);
 
-        System.out.printf("%s의 가격이 %,d원 → %,d원으로 수정되었습니다.%n",
+        System.out.printf("%n%s의 가격이 %,d원 → %,d원으로 수정되었습니다.%n",
             product.getProductName(), oldPrice, product.getPrice());
     }
 
@@ -168,7 +172,7 @@ public class AdminService {
         String newDescription = readString("새로운 설명을 입력해주세요: ");
         product.setDescription(newDescription);
 
-        System.out.printf("%s의 설명이 \"%s\" → \"%s\"로 수정되었습니다.%n",
+        System.out.printf("%n%s의 설명이 \"%s\" → \"%s\"로 수정되었습니다.%n",
             product.getProductName(), oldDescription, product.getDescription());
     }
 
@@ -179,11 +183,12 @@ public class AdminService {
         int newQuantity = readAmount("새로운 재고수량을 입력해주세요: ");
         product.setQuantity(newQuantity);
 
-        System.out.printf("%s의 재고수량이 %d개 → %d개로 수정되었습니다.%n",
+        System.out.printf("%n%s의 재고수량이 %d개 → %d개로 수정되었습니다.%n",
             product.getProductName(), oldQuantity, product.getQuantity());
     }
 
     private void removeProduct() {
+        System.out.println();
         String productName = readString("삭제할 상품명을 입력해주세요: ");
 
         Category targetCategory = null;
@@ -203,6 +208,7 @@ public class AdminService {
         }
 
         commerceView.printProductInfo(targetProduct);
+        System.out.println();
         commerceView.printDeleteMessage();
 
         int confirm = getValidatedInput(2, "유효하지 않은 메뉴 번호입니다!");
@@ -210,6 +216,7 @@ public class AdminService {
         if (confirm == 1) {
             targetCategory.removeProduct(targetProduct);
             cart.removeProduct(targetProduct);
+            System.out.println();
             System.out.println("상품이 성공적으로 삭제되었습니다.");
         } else {
             System.out.println("상품 삭제가 취소되었습니다.");
@@ -219,6 +226,7 @@ public class AdminService {
     }
 
     private Product findProductByName() {
+        System.out.println();
         String productName = readString("수정할 상품명을 입력해주세요: ");
 
         for (Category category : categories) {
@@ -268,21 +276,25 @@ public class AdminService {
         while (true) {
             System.out.print(message);
 
-            if (!sc.hasNextInt()) {
+            String input = sc.nextLine().trim();
+
+            if (input.isEmpty()) {
                 System.out.println("숫자를 입력해주세요!");
-                sc.next();
                 continue;
             }
 
-            int value = sc.nextInt();
-            sc.nextLine();
+            try {
+                int value = Integer.parseInt(input);
 
-            if (value <= 0) {
+                if (value > 0) {
+                    return value;
+                }
+
                 System.out.println("1 이상의 숫자를 입력해주세요.");
-                continue;
-            }
 
-            return value;
+            } catch (NumberFormatException e) {
+                System.out.println("숫자를 입력해주세요!");
+            }
         }
     }
 }

@@ -85,7 +85,7 @@ public class CommerceSystem {
         commerceView.printCategoryProducts(category);
 
         int productChoice = getValidatedInput(category.getProducts().size(),
-            "유효하지 않은 상품 번호입니다!" );
+            "유효하지 않은 상품 번호입니다!");
 
         if (productChoice == 0) {
             System.out.println();
