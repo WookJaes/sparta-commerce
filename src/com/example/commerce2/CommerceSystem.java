@@ -9,26 +9,31 @@ public class CommerceSystem {
     private final Scanner sc;
     private final Cart cart;
     private final CommerceView commerceView;
+    private final AdminService adminService;
 
     public CommerceSystem(List<Category> categories, Scanner sc) {
         this.categories = categories;
         this.sc = sc;
         this.cart = new Cart();
         this.commerceView = new CommerceView();
+        this.adminService = new AdminService(categories, sc, cart, commerceView);
     }
 
     public void start() {
         while (true) {
+            commerceView.printMainMenu(categories, cart);
+
+            int choice = getMainMenuInput();
+
+            if (choice == 0) {
+                System.out.println("커머스 플랫폼을 종료합니다.");
+                return;
+            }
+
             try {
-                commerceView.printMainMenu(categories, cart);
-
-                int choice = getValidatedInput(
-                    cart.isEmpty() ? categories.size() : categories.size() + 2,
-                    "유효하지 않은 메뉴 번호입니다!");
-
-                if (choice == 0) {
-                    System.out.println("커머스 플랫폼을 종료합니다.");
-                    return;
+                if (choice == 6) {
+                    adminService.runAdminMenu();
+                    continue;
                 }
 
                 if (executeOrderMenu(choice)) {
@@ -71,6 +76,7 @@ public class CommerceSystem {
             System.out.println();
             return true;
         }
+
         return false;
     }
 
@@ -78,7 +84,8 @@ public class CommerceSystem {
         Category category = categories.get(choice - 1);
         commerceView.printCategoryProducts(category);
 
-        int productChoice = getValidatedInput(category.getProducts().size(), "유효하지 않은 상품 번호입니다!");
+        int productChoice = getValidatedInput(category.getProducts().size(),
+            "유효하지 않은 상품 번호입니다!" );
 
         if (productChoice == 0) {
             System.out.println();
@@ -105,6 +112,33 @@ public class CommerceSystem {
         System.out.println();
     }
 
+    private int getMainMenuInput() {
+        while (true) {
+            if (!sc.hasNextInt()) {
+                System.out.println("숫자를 입력해주세요!");
+                sc.next();
+                continue;
+            }
+
+            int input = sc.nextInt();
+            sc.nextLine();
+
+            if (input == 0 || input == 6) {
+                return input;
+            }
+
+            if (input >= 1 && input <= categories.size()) {
+                return input;
+            }
+
+            if (!cart.isEmpty() && (input == 4 || input == 5)) {
+                return input;
+            }
+
+            System.out.println("유효하지 않은 메뉴 번호입니다!");
+        }
+    }
+
     private int getValidatedInput(int indexSize, String errorMessage) {
         while (true) {
             if (!sc.hasNextInt()) {
@@ -114,6 +148,7 @@ public class CommerceSystem {
             }
 
             int input = sc.nextInt();
+            sc.nextLine();
 
             if (input < 0 || input > indexSize) {
                 System.out.println(errorMessage);

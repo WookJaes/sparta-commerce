@@ -88,4 +88,13 @@ public class Cart {
         }
         return null;
     }
+
+    // 장바구니에 존재하는 CartItem 제거
+    public void removeProduct(Product product) {
+        if (product == null) {
+            throw new IllegalArgumentException("삭제할 상품이 없습니다.");
+        }
+
+        items.removeIf(item -> item.getProduct() == product);
+    }
 }

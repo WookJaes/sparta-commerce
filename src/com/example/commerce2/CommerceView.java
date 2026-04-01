@@ -10,6 +10,7 @@ public class CommerceView {
             System.out.println((i + 1) + ". " + categories.get(i).getCategoryName());
         }
         System.out.println("0. 종료     | 프로그램 종료");
+        System.out.println("6. 관리자 모드");
 
         if (!cart.isEmpty()) {
             System.out.println();
@@ -26,8 +27,7 @@ public class CommerceView {
         List<Product> products = category.getProducts();
         for (int i = 0; i < products.size(); i++) {
             Product product = products.get(i);
-            System.out.printf("%d. %-14s | %,9d원 | %s | 재고: %d개%n",
-                i + 1,
+            System.out.printf("%d. %-14s | %,9d원 | %s | 재고: %d개%n", i + 1,
                 product.getProductName(), product.getPrice(), product.getDescription(), product.getQuantity());
         }
         System.out.println("0. 뒤로가기");
@@ -65,5 +65,67 @@ public class CommerceView {
 
         printCart(cart);
         System.out.println("1. 주문 확정      2. 메인으로 돌아가기");
+    }
+
+    public void printAdminMenu() {
+        System.out.println("[ 관리자 모드 ]");
+        System.out.println("1. 상품 추가");
+        System.out.println("2. 상품 수정");
+        System.out.println("3. 상품 삭제");
+        System.out.println("4. 전체 상품 현황");
+        System.out.println("0. 메인으로 돌아가기");
+    }
+
+    public void printCategorySelection(List<Category> categories) {
+        System.out.println("어느 카테고리에 상품을 추가하시겠습니까?");
+        for (int i = 0; i < categories.size(); i++) {
+            System.out.println((i + 1) + ". " + categories.get(i).getCategoryName());
+        }
+    }
+
+    public void printProductInfo(Product product) {
+        System.out.printf("%s | %,d원 | %s | 재고: %d개%n",
+            product.getProductName(), product.getPrice(), product.getDescription(),
+            product.getQuantity());
+    }
+
+    public void printEditMenu() {
+        System.out.println("수정할 항목을 선택해주세요:");
+        System.out.println("1. 가격");
+        System.out.println("2. 설명");
+        System.out.println("3. 재고수량");
+    }
+
+    public void printAllProducts(List<Category> categories) {
+        System.out.println("[ 전체 상품 현황 ]");
+
+        for (Category category : categories) {
+            System.out.println();
+            System.out.println("[ " + category.getCategoryName() + " ]");
+
+            for (Product product : category.getProducts()) {
+                System.out.printf("%s | %,d원 | %s | 재고: %d개%n",
+                    product.getProductName(),
+                    product.getPrice(),
+                    product.getDescription(),
+                    product.getQuantity());
+            }
+        }
+        System.out.println();
+    }
+
+    public void printAddProductHeader(Category category) {
+        System.out.println();
+        System.out.println("[ " + category.getCategoryName() + " 카테고리에 상품 추가 ]");
+    }
+
+    public void printAddMessage() {
+        System.out.println("위 정보로 상품을 추가하시겠습니까?");
+        System.out.println("1. 확인    2. 취소");
+    }
+
+    public void printDeleteMessage() {
+        System.out.println("위 상품을 삭제하시겠습니까?");
+        System.out.println("1. 확인    2. 취소");
     }
 }
