@@ -1,4 +1,4 @@
-package com.example.commerce;
+package com.example.commerce1;
 
 public class Product {
 
