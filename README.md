@@ -15,7 +15,7 @@ Java 콘솔 환경에서 동작하는 간단한 커머스 시스템입니다.
 
 ## 파일 구조
 ```text
-/src/com/example/commerce
+/src/com/example
 ├─commerce
 │      Category.java
 │      CommerceSystem.java
