@@ -1,5 +1,8 @@
 package com.example.commerce;
 
+/**
+ * 상품 정보를 나타내는 클래스
+ */
 public class Product {
 
     private final String productName;

@@ -1,5 +1,8 @@
 package com.example.commerce2;
 
+/**
+ * 상품 정보를 나타내는 클래스
+ */
 public class Product {
 
     private final String productName;
@@ -30,10 +33,12 @@ public class Product {
         return quantity;
     }
 
+    // 재고 확인
     public boolean hasInsufficientQuantity(int amount) {
         return quantity < amount;
     }
 
+    // 재고 감소
     public void decreaseQuantity(int amount) {
         if (hasInsufficientQuantity(amount)) {
             throw new IllegalArgumentException("재고가 부족합니다.");

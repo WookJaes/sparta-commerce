@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 장바구니 기능을 담당하는 클래스
+ */
 public class Cart {
 
     private final List<CartItem> items = new ArrayList<>();
@@ -39,6 +42,7 @@ public class Cart {
         cartItem.increaseQuantity();
     }
 
+    // 전체 가격 계산
     public int getTotalPrice() {
         int total = 0;
 
@@ -59,6 +63,7 @@ public class Cart {
         for (CartItem item : items) {
             Product product = item.getProduct();
 
+            // 주문 처리 (재고 차감)
             int before = product.getQuantity();
             product.decreaseQuantity(item.getQuantity());
             int after = product.getQuantity();
@@ -67,7 +72,7 @@ public class Cart {
                 String.format("%s 재고가 %d개 → %d개로 업데이트되었습니다.",
                     product.getProductName(), before, after));
         }
-        clear();
+        clear();    // 장바구니 초기화
         return messages;
     }
 
@@ -76,7 +81,7 @@ public class Cart {
     }
 
     public void cancelOrder() {
-        clear();
+        clear();    // 장바구니 초기화
     }
 
     // 상품이 장바구니에 있는지 확인

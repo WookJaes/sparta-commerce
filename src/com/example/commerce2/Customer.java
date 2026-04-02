@@ -1,5 +1,8 @@
 package com.example.commerce2;
 
+/**
+ * 고객 정보를 나타내는 클래스
+ */
 public class Customer {
 
     private final String customerName;

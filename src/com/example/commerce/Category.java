@@ -3,6 +3,9 @@ package com.example.commerce;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 상품 카테고리 클래스
+ */
 public class Category {
 
     private final List<Product> products;

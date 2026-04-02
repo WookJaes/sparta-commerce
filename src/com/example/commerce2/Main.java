@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * 커머스 플랫폼 실행 클래스
+ */
 public class Main {
 
     public static void main(String[] args) {

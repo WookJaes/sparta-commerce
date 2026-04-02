@@ -3,6 +3,9 @@ package com.example.commerce2;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * 관리자 기능(상품 추가/수정/삭제/조회)을 담당하는 클래스
+ */
 public class AdminService {
 
     private static final String ADMIN_PASSWORD = "admin123";
@@ -12,21 +15,21 @@ public class AdminService {
     private final Cart cart;
     private final CommerceView commerceView;
 
-    public AdminService(List<Category> categories, Scanner sc, Cart cart,
-        CommerceView commerceView) {
+    public AdminService(List<Category> categories, Scanner sc, Cart cart, CommerceView commerceView) {
         this.categories = categories;
         this.sc = sc;
         this.cart = cart;
         this.commerceView = commerceView;
     }
 
+    // 관리자 메뉴 실행 (인증 후 기능 선택)
     public void runAdminMenu() {
         if (!authenticate()) {
             return;
         }
 
         while (true) {
-            commerceView.printAdminMenu();
+            commerceView.printAdminMenu();  // 관리자 메뉴 출력
             int choice = getValidatedInput(4, "유효하지 않은 메뉴 번호입니다!");
 
             if (choice == 0) {
@@ -46,7 +49,7 @@ public class AdminService {
                         removeProduct();
                         break;
                     case 4:
-                        commerceView.printAllProducts(categories);
+                        commerceView.printAllProducts(categories);  // 전체 카테고리 상품 목록 출력
                         break;
                     default:
                         throw new IllegalArgumentException("유효하지 않은 메뉴 번호입니다!");
@@ -59,6 +62,7 @@ public class AdminService {
         }
     }
 
+    // 관리자 비밀번호 인증 (3회 제한)
     private boolean authenticate() {
         int failCount = 0;
 
@@ -85,6 +89,7 @@ public class AdminService {
         return false;
     }
 
+    // 상품 추가 기능 (카테고리 선택 → 입력 → 검증 → 등록)
     private void addProduct() {
         commerceView.printCategorySelection(categories);
         int categoryChoice = getValidatedInput(categories.size(), "유효하지 않은 카테고리 번호입니다!");
@@ -126,6 +131,7 @@ public class AdminService {
         System.out.println();
     }
 
+    // 상품 수정 기능 (상품 검색 → 항목 선택 → 수정)
     private void editProduct() {
         Product product = findProductByName();
 
@@ -154,6 +160,7 @@ public class AdminService {
         System.out.println();
     }
 
+    // 상품 가격 수정
     private void updatePrice(Product product) {
         int oldPrice = product.getPrice();
         System.out.printf("현재 가격: %,d원%n", oldPrice);
@@ -165,6 +172,7 @@ public class AdminService {
             product.getProductName(), oldPrice, product.getPrice());
     }
 
+    // 상품 재고 수량 수정
     private void updateDescription(Product product) {
         String oldDescription = product.getDescription();
         System.out.println("현재 설명: " + oldDescription);
@@ -176,6 +184,7 @@ public class AdminService {
             product.getProductName(), oldDescription, product.getDescription());
     }
 
+    // 상품 재고 수량 수정
     private void updateQuantity(Product product) {
         int oldQuantity = product.getQuantity();
         System.out.printf("현재 재고수량: %d개%n", oldQuantity);
@@ -187,6 +196,7 @@ public class AdminService {
             product.getProductName(), oldQuantity, product.getQuantity());
     }
 
+    // 상품 삭제 기능 (상품 검색 → 확인 → 삭제)
     private void removeProduct() {
         System.out.println();
         String productName = readString("삭제할 상품명을 입력해주세요: ");
@@ -225,6 +235,7 @@ public class AdminService {
         System.out.println();
     }
 
+    // 상품명으로 상품 검색
     private Product findProductByName() {
         System.out.println();
         String productName = readString("수정할 상품명을 입력해주세요: ");
@@ -239,6 +250,7 @@ public class AdminService {
         throw new IllegalArgumentException("해당 상품을 찾을 수 없습니다.");
     }
 
+    // 사용자 입력 검증
     private int getValidatedInput(int indexSize, String errorMessage) {
         while (true) {
             if (!sc.hasNextInt()) {
@@ -259,6 +271,7 @@ public class AdminService {
         }
     }
 
+    // 문자열 입력 처리 (공백 방지)
     private String readString(String message) {
         while (true) {
             System.out.print(message);
@@ -272,6 +285,7 @@ public class AdminService {
         }
     }
 
+    // 숫자 입력 처리 (양수 + 예외 처리)
     private int readAmount(String message) {
         while (true) {
             System.out.print(message);

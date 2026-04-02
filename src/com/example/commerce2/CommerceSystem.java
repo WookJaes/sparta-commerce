@@ -3,6 +3,9 @@ package com.example.commerce2;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * 커머스 플랫폼의 전체 흐름을 제어하는 클래스
+ */
 public class CommerceSystem {
 
     private final List<Category> categories;
@@ -21,9 +24,9 @@ public class CommerceSystem {
 
     public void start() {
         while (true) {
-            commerceView.printMainMenu(categories, cart);
+            commerceView.printMainMenu(categories, cart);   // 메인 메뉴 출력
 
-            int choice = getMainMenuInput();
+            int choice = getMainMenuInput();    // 메인 메뉴 입력값 처리
 
             if (choice == 0) {
                 System.out.println("커머스 플랫폼을 종료합니다.");
@@ -36,10 +39,12 @@ public class CommerceSystem {
                     continue;
                 }
 
+                // 주문 및 주문 취소 메뉴 메서드
                 if (executeOrderMenu(choice)) {
                     continue;
                 }
 
+                // 카테고리 메뉴 로직 메서드
                 executeCategoryMenu(choice);
 
             } catch (IllegalArgumentException e) {
@@ -49,10 +54,12 @@ public class CommerceSystem {
         }
     }
 
+    // 주문 및 주문 취소 메뉴 처리
     private boolean executeOrderMenu(int choice) {
         if (!cart.isEmpty() && choice == 4) {
-            commerceView.printOrderSummary(cart);
+            commerceView.printOrderSummary(cart);   // 주문 요약 화면 출력
 
+            // 사용자 입력 검증
             int orderChoice = getValidatedInput(2, "유효하지 않은 메뉴 번호입니다!");
 
             if (orderChoice == 1) {
@@ -80,22 +87,25 @@ public class CommerceSystem {
         return false;
     }
 
+    // 카테고리 선택 후 상품 목록 처리
     private void executeCategoryMenu(int choice) {
         Category category = categories.get(choice - 1);
         commerceView.printCategoryProducts(category);
 
-        int productChoice = getValidatedInput(category.getProducts().size(),
-            "유효하지 않은 상품 번호입니다!");
+        // 사용자 입력 검증
+        int productChoice = getValidatedInput(category.getProducts().size(), "유효하지 않은 상품 번호입니다!");
 
+        // 뒤로 가기 기능
         if (productChoice == 0) {
             System.out.println();
             return;
         }
 
         Product product = category.getProducts().get(productChoice - 1);
-        handleAddToCart(product);
+        handleAddToCart(product);   // 장바구니 추가
     }
 
+    // 상품 선택 후 장바구니 추가 처리
     private void handleAddToCart(Product product) {
         commerceView.printProductSelect(product);
 
@@ -112,6 +122,7 @@ public class CommerceSystem {
         System.out.println();
     }
 
+    // 메인 메뉴 전용 입력 처리
     private int getMainMenuInput() {
         while (true) {
             if (!sc.hasNextInt()) {
@@ -139,6 +150,7 @@ public class CommerceSystem {
         }
     }
 
+    // 사용자 입력 검증 (재사용 가능)
     private int getValidatedInput(int indexSize, String errorMessage) {
         while (true) {
             if (!sc.hasNextInt()) {
